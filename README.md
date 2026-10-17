@@ -1,24 +1,24 @@
-# Barbearia Marconi
+# Marconi Barbershop
 
-Site com agendamento pelo cliente + painel do barbeiro, feito em React + Vite + Tailwind.
+Website with client appointment scheduling + a barber’s dashboard, built using React, Vite, and Tailwind.
 
-## Rodando localmente
+## Running locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Abre em `http://localhost:5173`.
+Opens in `http://localhost:5173`.
 
-Para gerar a versão de produção:
+To generate the production version:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Estrutura
+## Structure
 
 ```
 src/
@@ -28,43 +28,25 @@ src/
   assets/images fotos reais da loja usadas na seção "Fotos"
 ```
 
-## Painel do barbeiro
+## Barber's sign
 
-O painel **não tem link visível no site**. Para acessar, adicione `#painel`
-no final do endereço, por exemplo:
-
+The panel **has no visible link on the website**. To access it, add `#painel`
+to the end of the address, for example:
 ```
-https://seudominio.com/#painel
+https://yourdomain.com/#panel
 ```
 
-Depois disso, ele pede uma senha (definida em `src/components/PanelView.jsx`,
-hoje `marconi2026` só para demonstração). Troque essa senha e, antes de usar
-com dinheiro de verdade, troque por um login real — hoje é só uma trava no
-frontend, não autenticação de verdade.
+After that, it asks for a password (defined in `src/components/PanelView.jsx`—currently `marconi2026`, for demonstration purposes only). Change this password, and before using it with real money, replace it with a proper login system; as it stands, this is merely a frontend-side lock, not actual authentication.
 
-## ⚠️ Limitação importante: `localStorage`
+## ⚠️ Important Limitation: `localStorage`
 
-Os agendamentos hoje são salvos com `localStorage`, ou seja, **só existem no
-navegador de quem preencheu o formulário**. Um cliente que agenda pelo celular
-dele não aparece automaticamente no painel do barbeiro em outro aparelho.
+Currently, appointments are saved using `localStorage`, which means they **only exist in the browser of the person who filled out the form**. If a client makes an appointment from their own mobile phone, it will not automatically appear on the barber’s dashboard on a different device.
 
-Isso funciona para testar o fluxo, mas para o site e o painel realmente se
-falarem entre aparelhos diferentes, é preciso um backend. As duas funções que
-precisam mudar estão isoladas em `src/utils/storage.js` — trocando
-`getBookings`/`saveBookings` por chamadas `fetch` para uma API (o
-[BarberHub](../) já usa Node/Express + PostgreSQL via Prisma), o resto do app
-não precisa mudar.
+While this is sufficient for testing the workflow, enabling the website and the dashboard to communicate across different devices would require a backend. The two functions that need to be updated are isolated in `src/utils/storage.js`—by replacing `getBookings`/`saveBookings` with `fetch` calls to an API (BarberHub already uses Node/Express + PostgreSQL via Prisma). The rest of the application would remain unchanged.
 
-## Notificação para o barbeiro
+## Notifications for the Barber
 
-O painel usa a Notification API do navegador: com a aba aberta, ele checa a
-cada 15s se chegou agendamento novo e dispara uma notificação. Isso funciona
-enquanto o navegador/app estiver aberto (mesmo em segundo plano na maioria
-dos casos), mas não com o app totalmente fechado — para isso seria necessário
-push notification de verdade (service worker + backend) ou reaproveitar a
-integração de WhatsApp via Meta Cloud API que já está prevista no BarberHub.
-
-## Deploy
+The dashboard utilizes the browser's Notification API: with the tab open, it checks for new appointments every 15 seconds and triggers a notification. This works as long as the browser or application remains open (in most cases, even when running in the background), but it will not function if the application is completely closed. To support that, you would need actual push notifications (implemented via a service worker and a backend) or to leverage the WhatsApp integration—via the Meta Cloud API—which is already planned for BarberHub.
 
 Qualquer host de site estático funciona (Vercel, Netlify, Cloudflare Pages):
 build command `npm run build`, output directory `dist`.
